@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeGeneration", "TreeGeneration.csproj", "{0534B58E-7CF1-5B34-CCAF-B182C23AD7AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeGeneration.Editor", "TreeGeneration.Editor.csproj", "{D64BFB23-BD1B-458C-30D5-AB39806843A0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0534B58E-7CF1-5B34-CCAF-B182C23AD7AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0534B58E-7CF1-5B34-CCAF-B182C23AD7AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0534B58E-7CF1-5B34-CCAF-B182C23AD7AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0534B58E-7CF1-5B34-CCAF-B182C23AD7AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D64BFB23-BD1B-458C-30D5-AB39806843A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D64BFB23-BD1B-458C-30D5-AB39806843A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D64BFB23-BD1B-458C-30D5-AB39806843A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D64BFB23-BD1B-458C-30D5-AB39806843A0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
