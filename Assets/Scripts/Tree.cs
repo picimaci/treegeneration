@@ -18,6 +18,26 @@ public class Tree
     public List<Vector3> vertices;
     public List<int> indices;
 
+    public void SetTreeShape(Shape s)
+    {
+        shape = s;
+        switch (shape)
+        {
+            case Shape.Apple:
+                childParentRatio = 0.75f;
+                break;
+            case Shape.Palm:
+                break;
+            case Shape.Pine:
+                break;
+            case Shape.Willow:
+                break;
+            default:
+                Debug.Log("Tree Shape does not exist");
+                break;
+        }
+    }
+
     public void GenerateForTesting()
     {
         random = new System.Random();
