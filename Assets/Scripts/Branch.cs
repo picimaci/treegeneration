@@ -17,7 +17,7 @@ public class Branch : Stem
         baseRotation = Quaternion.Euler(-90,0,0);
         taper = 0.75f;
         length = 5;
-        split = 0.5f;
+        splitFactor = 0.5f;
         radius = 0.2f;
         numberOfSectors = 5;
         curveAngle = new Vector3(20,10,0);
@@ -43,7 +43,7 @@ public class Branch : Stem
     public void GenerateSegments(int segNumber, Segment parent, Vector3 angle, Vector3 angleVariation, bool prevSplit)
     {
         float radiusReduceStep = radius * (1-taper) / segCount;
-        float splitThisShit = split;
+        float splitThisShit = splitFactor;
 
         Segment segment = new Segment();
         segment.numberOfSectors = numberOfSectors;
@@ -155,7 +155,7 @@ public class Branch : Stem
         branch.radius = segment.bottomRadius * tree.childParentRatio;
         branch.length = branch.radius * tree.widthLengthRatio;
         branch.taper = taper;
-        branch.split = 0f;
+        branch.splitFactor = 0f;
         branch.curveAngle = curveAngle;
         branch.curveAngleVariation = curveAngleVariation;
         branch.curveBackAngle = curveBackAngle;

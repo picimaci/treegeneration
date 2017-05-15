@@ -15,7 +15,7 @@ public class Stem
     public float radius;
     public float length;
     public float taper;
-    public float split;
+    public float splitFactor;
 
     public Vector3 splitAngle;
     public Vector3 splitAngleVariation;

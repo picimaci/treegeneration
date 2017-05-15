@@ -10,6 +10,8 @@ public class Trunk : Stem
     public Vector3 baseSplitAngleVariation;
     public float flare;
 
+    public Vector3 curveAngleForBranch;
+    public Vector3 curveAngleVariationForBranch;
     public Vector3 curveBackAngleForBranch;
     public Vector3 curveBackAngleVariationForBranch;
     public float splitForBranch;
@@ -23,7 +25,7 @@ public class Trunk : Stem
         length = 8;
         baseSplitPoint = 0.5f;
         baseSplit = 0f;
-        split = 0.5f;
+        splitFactor = 0.5f;
         radius = 0.5f;
         numberOfSectors = 4;
         curveAngle = new Vector3(5,0,5);
@@ -55,7 +57,7 @@ public class Trunk : Stem
     public void GenerateSegments(int segNumber, Segment parent, Vector3 angle, Vector3 angleVariation, bool prevSplit)
     {
         float radiusReduceStep = radius * (1-taper) / segCount;
-        float splitThisShit = split;
+        float splitThisShit = splitFactor;
         float baseSplitThisShit = baseSplit;
         Vector3 curveVariation = curveAngleVariation;
 
@@ -172,14 +174,14 @@ public class Trunk : Stem
         branch.tree = tree;
         branch.segCount = segCount;
         branch.numberOfSectors = numberOfSectors;
-        branch.baseRotation = segment.bottomRotation;
+        branch.baseRotation = segment.bottomRotation * Quaternion.Euler(branchingAngle + (float)tree.random.NextDouble() * branchingAngleVariation);
         branch.basePoint = segment.bottom;
         branch.radius = segment.bottomRadius * tree.childParentRatio;
         branch.length = length * tree.childParentRatio;
         branch.taper = taper;
-        branch.split = splitForBranch;
-        branch.curveAngle = curveAngle;
-        branch.curveAngleVariation = curveAngleVariation;
+        branch.splitFactor = splitForBranch;
+        branch.curveAngle = curveAngleForBranch;
+        branch.curveAngleVariation = curveAngleVariationForBranch;
         branch.curveBackAngle = curveBackAngleForBranch;
         branch.curveBackAngleVariation = curveBackAngleVariationForBranch;
         branch.splitAngle = splitAngle;

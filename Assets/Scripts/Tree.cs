@@ -6,19 +6,18 @@ using Assets.Scripts;
 
 public class Tree
 {
-    public Shape shape;
-    public Trunk trunk;
-    public float splitAngle;
+    public System.Random random;
+
     public int recursionDepth;
+    public Shape shape;
+    public Vector3 basePoint;
     public float widthLengthRatio;
     public float childParentRatio;
 
-    public System.Random random;
+    public Trunk trunk;
 
     public List<Vector3> vertices;
     public List<int> indices;
-
-    public Vector3 basePoint;
 
     public void SetTreeShape(Shape s)
     {

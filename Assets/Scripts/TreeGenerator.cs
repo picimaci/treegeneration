@@ -39,6 +39,9 @@ public class TreeGenerator : MonoBehaviour {
 	public float branchingPoint = 0.7f;
 	public float branchingProbability = 0.5f;
 
+	public Vector3 trunkCurveAngle = new Vector3(5,5,5);
+	public Vector3 trunkCurveAngleVariation = new Vector3(-10,-10,-10);
+
 	public Vector3 curveAngle = new Vector3(5,5,5);
 	public Vector3 curveAngleVariation = new Vector3(-10,-10,-10);
 
@@ -74,11 +77,11 @@ public class TreeGenerator : MonoBehaviour {
 		trunk.branchingAngleVariation = branchingAngleVariation;
 		trunk.branchingFactor = branchingProbability;
 		trunk.branchingPoint = branchingPoint;
-		trunk.curveAngle = curveAngle;
-		trunk.curveAngleVariation = curveAngleVariation;
+		trunk.curveAngle = trunkCurveAngle;
+		trunk.curveAngleVariation = trunkCurveAngleVariation;
 		trunk.segCount = segCount;
 		trunk.numberOfSectors = numberOfSectors;
-		trunk.split = splitProbability;
+		trunk.splitFactor = splitProbability;
 		trunk.splitAngle = splitAngle;
 		trunk.baseSplitPoint = splitPoint;
 		trunk.splitAngleVariation = splitAngleVariation;
@@ -88,6 +91,8 @@ public class TreeGenerator : MonoBehaviour {
 		trunk.curveBackAngleForBranch = curveBackAngle;
 		trunk.curveBackAngleVariationForBranch = curveBackAngleVariation;
 		trunk.splitForBranch = splitProbabilityForBranch;
+		trunk.curveAngleForBranch = curveAngle;
+		trunk.curveAngleVariationForBranch = curveAngleVariation;
 
 		trunk.levelOfRecursion = 0;
 
