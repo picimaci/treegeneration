@@ -74,7 +74,6 @@
     <Compile Include="Assets\Scripts\Stem.cs" />
     <Compile Include="Assets\Scripts\Tree.cs" />
     <Compile Include="Assets\Scripts\TreeGenerator.cs" />
-    <Compile Include="Assets\Scripts\TreeShape.cs" />
     <Compile Include="Assets\Scripts\Trunk.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

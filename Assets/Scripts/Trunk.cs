@@ -4,11 +4,15 @@ using System.Collections.Generic;
 
 public class Trunk : Stem
 {
-    private float baseSplit;
-    private float baseSplitPoint;
-    private Vector3 baseSplitAngle;
-    private Vector3 baseSplitAngleVariation;
-    private float flare;
+    public float baseSplit;
+    public float baseSplitPoint;
+    public Vector3 baseSplitAngle;
+    public Vector3 baseSplitAngleVariation;
+    public float flare;
+
+    public Vector3 curveBackAngleForBranch;
+    public Vector3 curveBackAngleVariationForBranch;
+    public float splitForBranch;
 
     public void GenerateForTesting()
     {
@@ -168,22 +172,24 @@ public class Trunk : Stem
         branch.tree = tree;
         branch.segCount = segCount;
         branch.numberOfSectors = numberOfSectors;
-        branch.baseRotation = segment.bottomRotation * Quaternion.Euler(branchingAngle + (float)tree.random.NextDouble() * branchingAngleVariation);
+        branch.baseRotation = segment.bottomRotation;
         branch.basePoint = segment.bottom;
         branch.radius = segment.bottomRadius * tree.childParentRatio;
         branch.length = length * tree.childParentRatio;
         branch.taper = taper;
-        branch.split = 0.3f;
+        branch.split = splitForBranch;
         branch.curveAngle = curveAngle;
         branch.curveAngleVariation = curveAngleVariation;
-        branch.curveBackAngle = new Vector3(-10,-10,0);
-        branch.curveBackAngleVariation = new Vector3(5,5,0);
+        branch.curveBackAngle = curveBackAngleForBranch;
+        branch.curveBackAngleVariation = curveBackAngleVariationForBranch;
         branch.splitAngle = splitAngle;
         branch.splitAngleVariation = splitAngleVariation;
         branch.branchingPoint = 0;
         branch.branchingAngle = branchingAngle;
         branch.branchingAngleVariation = branchingAngleVariation;
         branch.branchingFactor = 0.5f;
+
+        branch.levelOfRecursion = 1;
 
         segment.branchList.Add(branch);
 

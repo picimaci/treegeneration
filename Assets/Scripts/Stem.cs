@@ -5,6 +5,8 @@ using System;
 
 public class Stem
 {
+    public int levelOfRecursion;
+
     public int segCount;
     public int numberOfSectors;
     public Vector3 basePoint;

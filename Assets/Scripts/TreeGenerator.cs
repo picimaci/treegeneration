@@ -17,7 +17,35 @@ public class TreeGenerator : MonoBehaviour {
 
 	private Mesh treeMesh;
 
-	public Shape shape;
+	public int segCount = 7;
+	public int numberOfSectors = 4;
+
+	public int recursionDepth = 1;
+	public float radius = 0.5f;
+	public float flare = 2;
+	public float taper = 0.7f;
+	public float widthLengthRatio = 16;
+	public float childrenParentRatio = 0.8f;
+
+	public Vector3 splitAngle = new Vector3(0,45,30);
+	public Vector3 splitAngleVariation = new Vector3(0,-90, -60);
+	public float splitPoint = 0.5f;
+	public float splitProbability = 0.5f;
+
+	public float splitProbabilityForBranch = 0.3f;
+
+	public Vector3 branchingAngle = new Vector3(0,180,45);
+	public Vector3 branchingAngleVariation = new Vector3(0,-360,-90);
+	public float branchingPoint = 0.7f;
+	public float branchingProbability = 0.5f;
+
+	public Vector3 curveAngle = new Vector3(5,5,5);
+	public Vector3 curveAngleVariation = new Vector3(-10,-10,-10);
+
+	public Vector3 curveBackAngle = new Vector3(-10,-10,0);
+	public Vector3 curveBackAngleVariation = new Vector3(5,5,0);
+
+	public Shape shape = Shape.Apple;
 
 	private void OnEnable ()
 	{
@@ -26,7 +54,7 @@ public class TreeGenerator : MonoBehaviour {
 		meshFilter = GetComponent<MeshFilter>();
 	}
 
-	//[ContextMenu("Generate")]
+	[ContextMenu("Generate")]
 	public void Generate()
 	{
 		if (treeMesh)
@@ -34,84 +62,44 @@ public class TreeGenerator : MonoBehaviour {
 
 		treeMesh = new Mesh {name = "treeMesh"};
 		Tree tree = new Tree();
-		tree.GenerateForTesting();
+		tree.childParentRatio = childrenParentRatio;
+		tree.widthLengthRatio = widthLengthRatio;
+		tree.recursionDepth = recursionDepth;
+
+		Trunk trunk = new Trunk();
+		trunk.flare = flare;
+		trunk.basePoint = new Vector3(0,0,0);
+		trunk.baseRotation = Quaternion.Euler(0, 0, 0);
+		trunk.branchingAngle = branchingAngle;
+		trunk.branchingAngleVariation = branchingAngleVariation;
+		trunk.branchingFactor = branchingProbability;
+		trunk.branchingPoint = branchingPoint;
+		trunk.curveAngle = curveAngle;
+		trunk.curveAngleVariation = curveAngleVariation;
+		trunk.segCount = segCount;
+		trunk.numberOfSectors = numberOfSectors;
+		trunk.split = splitProbability;
+		trunk.splitAngle = splitAngle;
+		trunk.baseSplitPoint = splitPoint;
+		trunk.splitAngleVariation = splitAngleVariation;
+		trunk.radius = radius;
+		trunk.length = radius * widthLengthRatio;
+		trunk.taper = taper;
+		trunk.curveBackAngleForBranch = curveBackAngle;
+		trunk.curveBackAngleVariationForBranch = curveBackAngleVariation;
+		trunk.splitForBranch = splitProbabilityForBranch;
+
+		trunk.levelOfRecursion = 0;
+
+		trunk.tree = tree;
+
+		tree.trunk = trunk;
+		tree.random = new System.Random();
+
+		tree.GenerateTreeUsingEditorParams();
 
 		treeMesh.SetVertices(tree.vertices);
 		treeMesh.SetIndices(tree.indices.ToArray(), MeshTopology.Triangles, 0);
-		treeMesh.UploadMeshData(markNoLogerReadable: false);
-		treeMesh.Optimize();
-		treeMesh.RecalculateNormals();
-		meshFilter.sharedMesh = treeMesh;
-//		GenerateBlabla();
-	}
-
-
-	public void GenerateBlabla()
-	{
-		List<Vector3> vertices = new List<Vector3>();
-		List<int> indices = new List<int>();
-
-		for (int i = 0; i < 3; i++)
-		{
-			vertices.Add(new Vector3(0,0.5f*i,0.4f-0.1f*i));
-			vertices.Add(new Vector3(0.4f - 0.1f* i,0.5f*i,-0.3f+ 0.1f*i));
-			vertices.Add(new Vector3(-0.4f + 0.1f* i,0.5f*i,-0.3f+ 0.1f*i));
-			if (i == 1)
-			{
-				vertices.Add(new Vector3(0,0.5f*i,0.4f-0.1f*i));
-				vertices.Add(new Vector3(0.4f - 0.1f* i,0.5f*i,-0.3f+ 0.1f*i));
-				vertices.Add(new Vector3(-0.4f + 0.1f* i,0.5f*i,-0.3f+ 0.1f*i));
-			}
-		}
-		indices.Add(0);
-		indices.Add(4);
-		indices.Add(3);
-		indices.Add(0);
-		indices.Add(1);
-		indices.Add(4);
-
-		indices.Add(1);
-		indices.Add(5);
-		indices.Add(4);
-		indices.Add(1);
-		indices.Add(2);
-		indices.Add(5);
-
-		indices.Add(2);
-		indices.Add(3);
-		indices.Add(5);
-		indices.Add(2);
-		indices.Add(0);
-		indices.Add(3);
-
-		indices.Add(6);
-		indices.Add(10);
-		indices.Add(9);
-		indices.Add(6);
-		indices.Add(7);
-		indices.Add(10);
-
-		indices.Add(7);
-		indices.Add(11);
-		indices.Add(10);
-		indices.Add(7);
-		indices.Add(8);
-		indices.Add(11);
-
-		indices.Add(8);
-		indices.Add(9);
-		indices.Add(11);
-		indices.Add(8);
-		indices.Add(6);
-		indices.Add(9);
-
-		if (treeMesh)
-			DestroyImmediate(treeMesh);
-
-		treeMesh = new Mesh {name = "treeMesh"};
-
-		treeMesh.SetVertices(vertices);
-		treeMesh.SetIndices(indices.ToArray(), MeshTopology.Triangles, 0);
 		treeMesh.UploadMeshData(markNoLogerReadable: false);
 		treeMesh.Optimize();
 		treeMesh.RecalculateNormals();

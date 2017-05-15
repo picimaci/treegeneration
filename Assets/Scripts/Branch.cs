@@ -53,7 +53,7 @@ public class Branch : Stem
 
         if (segNumber == 1)
         {
-            segment.bottomRadius = radius * tree.childParentRatio;
+            segment.bottomRadius = radius;
             segment.bottom = basePoint;
             segment.bottomRotation = baseRotation;
             segment.topRotation = baseRotation;
@@ -79,7 +79,7 @@ public class Branch : Stem
 
         nextRand = (float) tree.random.NextDouble();
 
-        if (segNumber > segCount * branchingPoint && nextRand < branchingFactor)
+        if (levelOfRecursion < tree.recursionDepth && segNumber > segCount * branchingPoint && nextRand < branchingFactor)
         {
             GenerateBranches(segment);
         }
@@ -153,7 +153,7 @@ public class Branch : Stem
         branch.baseRotation = segment.bottomRotation * Quaternion.Euler(branchingAngle + (float)tree.random.NextDouble() * branchingAngleVariation);
         branch.basePoint = segment.bottom;
         branch.radius = segment.bottomRadius * tree.childParentRatio;
-        branch.length = length * 0.5f;
+        branch.length = branch.radius * tree.widthLengthRatio;
         branch.taper = taper;
         branch.split = 0f;
         branch.curveAngle = curveAngle;
@@ -165,7 +165,7 @@ public class Branch : Stem
         branch.branchingPoint = 0;
         branch.branchingAngle = branchingAngle;
         branch.branchingAngleVariation = branchingAngleVariation;
-        branch.branchingFactor = 0f;
+        branch.branchingFactor = branchingFactor;
 
         segment.branchList.Add(branch);
 

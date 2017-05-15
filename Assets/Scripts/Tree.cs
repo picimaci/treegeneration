@@ -18,6 +18,8 @@ public class Tree
     public List<Vector3> vertices;
     public List<int> indices;
 
+    public Vector3 basePoint;
+
     public void SetTreeShape(Shape s)
     {
         shape = s;
@@ -25,6 +27,7 @@ public class Tree
         {
             case Shape.Apple:
                 childParentRatio = 0.75f;
+                recursionDepth = 2;
                 break;
             case Shape.Palm:
                 break;
@@ -55,6 +58,15 @@ public class Tree
         GenerateTreeMesh();
     }
 
+    public void GenerateTreeUsingEditorParams()
+    {
+        vertices = new List<Vector3>();
+        indices = new List<int>();
+
+        trunk.GenerateTrunk();
+        GenerateTreeMesh();
+    }
+
     public void GenerateTreeMesh()
     {
         GenerateMeshRecursively(trunk);
@@ -78,10 +90,5 @@ public class Tree
                 GenerateMeshRecursively(branch);
             }
         }
-    }
-
-    public class TrunkProperties
-    {
-
     }
 }
