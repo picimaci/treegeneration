@@ -40,29 +40,12 @@ public class Tree
         }
     }
 
-    public void GenerateForTesting()
-    {
-        random = new System.Random();
-        childParentRatio = 0.8f;
-        GenerateTree();
-    }
-
-    public void GenerateTree()
-    {
-        vertices = new List<Vector3>();
-        indices = new List<int>();
-        trunk = new Trunk();
-        trunk.tree = this;
-        trunk.GenerateForTesting();
-        GenerateTreeMesh();
-    }
-
     public void GenerateTreeUsingEditorParams()
     {
         vertices = new List<Vector3>();
         indices = new List<int>();
 
-        trunk.GenerateTrunk();
+        trunk.GenerateStem();
         GenerateTreeMesh();
     }
 
@@ -84,7 +67,7 @@ public class Tree
         }
         foreach (var segment in stem.segments)
         {
-            foreach (var branch in segment.branchList)
+            foreach (var branch in segment.childBranches)
             {
                 GenerateMeshRecursively(branch);
             }
