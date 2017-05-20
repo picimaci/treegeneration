@@ -17,17 +17,20 @@ public abstract class Stem
     public float taper;
     public float splitFactor;
 
-    public Vector3 splitAngle;
-    public Vector3 splitAngleVariation;
-    public Vector3 curveAngle;
-    public Vector3 curveAngleVariation;
+    public float splitAngle;
+    public float splitAngleVariation;
+    public float curveAngle;
+    public float curveAngleVariation;
 
-    protected Vector3 curveAnglePerSegment;
-    protected Vector3 curveAngleVariationPerSegment;
+    protected float curveAnglePerSegment;
+    protected float curveAngleVariationPerSegment;
     protected float radiusReduceStep;
 
-    public Vector3 branchingAngle;
-    public Vector3 branchingAngleVariation;
+    public int branchNumber;
+    public float branchingRotationY;
+
+    public float branchingAngle;
+    public float branchingAngleVariation;
 
     public float branchingPoint;
     public float branchingFactor;
@@ -50,7 +53,10 @@ public abstract class Stem
         GenerateSpecifics();
         GenerateSegments(1, null, curveAnglePerSegment, curveAngleVariationPerSegment, false);
         GenerateStemMesh();
-        GenerateBranches();
+        if (levelOfRecursion < tree.recursionDepth)
+        {
+            GenerateBranches();
+        }
     }
 
     public void GenerateStemMesh()
@@ -83,7 +89,22 @@ public abstract class Stem
     }
 
     public abstract void GenerateSpecifics();
-    public abstract void GenerateSegments(int segNumber, Segment parent, Vector3 angle, Vector3 angleVariation, bool prevSplit);
-    public abstract void GenerateBranches();
-    public abstract void GenerateBranches(Segment segment);
+    public abstract void GenerateSegments(int segNumber, Segment parent, float angle, float angleVariation, bool prevSplit);
+
+    public void GenerateBranches()
+    {
+        float nextRand = (float) tree.random.NextDouble();
+        int iter = 0;
+
+        foreach (var segment in segments)
+        {
+            if (iter > segCount * branchingPoint && nextRand < branchingFactor)
+            {
+                GenerateBranches(segment, iter * branchingRotationY);
+            }
+            iter++;
+        }
+    }
+
+    public abstract void GenerateBranches(Segment segment, float yRotationOffset);
 }

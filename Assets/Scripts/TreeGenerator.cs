@@ -27,26 +27,30 @@ public class TreeGenerator : MonoBehaviour {
 	public float widthLengthRatio = 16;
 	public float childrenParentRatio = 0.8f;
 
-	public Vector3 splitAngle = new Vector3(0,45,30);
-	public Vector3 splitAngleVariation = new Vector3(0,-90, -60);
+	public float splitAngle = 15;
+	public float splitAngleVariation = 5;
 	public float splitPoint = 0.5f;
 	public float splitProbability = 0.5f;
 
 	public float splitProbabilityForBranch = 0.3f;
 
-	public Vector3 branchingAngle = new Vector3(0,180,45);
-	public Vector3 branchingAngleVariation = new Vector3(0,-360,-90);
+	public int branchNumber = 2;
+	public float branchingRotationY = 30;
+	public float branchingAngle = 30;
+	public float branchingAngleVariation = 10;
 	public float branchingPoint = 0.7f;
+	public float branchingPointForBranch = 0;
 	public float branchingProbability = 0.5f;
+	public float branchingProbabilityForBranch = 0.5f;
 
-	public Vector3 trunkCurveAngle = new Vector3(5,5,5);
-	public Vector3 trunkCurveAngleVariation = new Vector3(-10,-10,-10);
+	public float trunkCurveAngle = 0;
+	public float trunkCurveAngleVariation = 15;
 
-	public Vector3 curveAngle = new Vector3(5,5,5);
-	public Vector3 curveAngleVariation = new Vector3(-10,-10,-10);
+	public float curveAngle = 45;
+	public float curveAngleVariation = 15;
 
-	public Vector3 curveBackAngle = new Vector3(-10,-10,0);
-	public Vector3 curveBackAngleVariation = new Vector3(5,5,0);
+	public float curveBackAngle = -10;
+	public float curveBackAngleVariation = 5;
 
 	public Shape shape = Shape.Apple;
 
@@ -73,10 +77,14 @@ public class TreeGenerator : MonoBehaviour {
 		trunk.flare = flare;
 		trunk.basePoint = new Vector3(0,0,0);
 		trunk.baseRotation = Quaternion.Euler(0, 0, 0);
+		trunk.branchNumber = branchNumber;
+		trunk.branchingRotationY = branchingRotationY;
 		trunk.branchingAngle = branchingAngle;
 		trunk.branchingAngleVariation = branchingAngleVariation;
 		trunk.branchingFactor = branchingProbability;
+		trunk.branchingFactorForBranch = branchingProbabilityForBranch;
 		trunk.branchingPoint = branchingPoint;
+		trunk.branchingPointForBranch = branchingPointForBranch;
 		trunk.curveAngle = trunkCurveAngle;
 		trunk.curveAngleVariation = trunkCurveAngleVariation;
 		trunk.segCount = segCount;

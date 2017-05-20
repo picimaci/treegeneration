@@ -7,11 +7,10 @@ using Random = UnityEngine.Random;
 
 public class Branch : Stem
 {
-
-    public Vector3 curveBackAngle;
-    public Vector3 curveBackAngleVariation;
-    protected Vector3 curveBackAnglePerSegment;
-    protected Vector3 curveBackAngleVariationPerSegment;
+    public float curveBackAngle;
+    public float curveBackAngleVariation;
+    protected float curveBackAnglePerSegment;
+    protected float curveBackAngleVariationPerSegment;
 
     public override void GenerateSpecifics()
     {
@@ -19,7 +18,7 @@ public class Branch : Stem
         curveBackAngleVariationPerSegment = curveBackAngleVariation / segCount;
     }
 
-    public override void GenerateSegments(int segNumber, Segment parent, Vector3 angle, Vector3 angleVariation, bool prevSplit)
+    public override void GenerateSegments(int segNumber, Segment parent, float angle, float angleVariation, bool prevSplit)
     {
         float adjustedSplitProbability = splitFactor;
 
@@ -55,7 +54,7 @@ public class Branch : Stem
         }
     }
 
-    public void GenerateSplitting(Segment segment, int segNumber, float currentSplitProbability, Vector3 currentCurveAngle, Vector3 currentCurveAngleVariation)
+    public void GenerateSplitting(Segment segment, int segNumber, float currentSplitProbability, float currentCurveAngle, float currentCurveAngleVariation)
     {
         float nextRand = (float)tree.random.NextDouble();
         if (nextRand < currentSplitProbability)
@@ -71,7 +70,7 @@ public class Branch : Stem
         }
     }
 
-    public void SetSegmentProperties(int segNumber, Segment segment, Segment parent, Vector3 angle, Vector3 angleVariation, bool prevSplit)
+    public void SetSegmentProperties(int segNumber, Segment segment, Segment parent, float angle, float angleVariation, bool prevSplit)
     {
         segment.numberOfSectors = numberOfSectors;
         segment.length = length / segCount;
@@ -89,53 +88,48 @@ public class Branch : Stem
             segment.bottom = parent.top;
             segment.bottomRotation = parent.topRotation;
             segment.parent = parent;
-            segment.topRotation = segment.bottomRotation * Quaternion.Euler(angle + Random.Range(-1,1) * angleVariation);
+            float rotateY = Random.Range(-15, 15);
+            float rotateZ = angle + Random.Range(-angleVariation, angleVariation);
+            segment.topRotation = segment.bottomRotation * Quaternion.Euler(0, rotateY, rotateZ);
         }
         segment.topRadius = segment.bottomRadius - radiusReduceStep;
     }
 
-    public override void GenerateBranches()
+    public override void GenerateBranches(Segment segment, float yRotationOffset)
     {
-        float nextRand = (float) tree.random.NextDouble();
-        int iter = 0;
-
-        foreach (var segment in segments)
+        int currentBranchNumber = Random.Range(0,branchNumber);
+        float rotationY = 360.0f / currentBranchNumber;
+        float rotationZ = branchingAngle + Random.Range(-1, 1) * branchingAngleVariation;
+        for (int i = 0; i < currentBranchNumber; i++)
         {
-            if (levelOfRecursion < tree.recursionDepth && iter > segCount * branchingPoint && nextRand < branchingFactor)
-            {
-                GenerateBranches(segment);
-            }
-            iter++;
+            Branch branch = new Branch();
+            branch.tree = tree;
+            branch.segCount = segCount;
+            branch.numberOfSectors = numberOfSectors;
+            branch.baseRotation = segment.topRotation * Quaternion.Euler(0, yRotationOffset + i * rotationY, rotationZ);
+            branch.basePoint = segment.bottom;
+            branch.radius = segment.bottomRadius * tree.childParentRatio;
+            branch.length = branch.radius * tree.widthLengthRatio;
+            branch.taper = taper;
+            branch.splitFactor = splitFactor;
+            branch.curveAngle = curveAngle;
+            branch.curveAngleVariation = curveAngleVariation;
+            branch.curveBackAngle = curveBackAngle;
+            branch.curveBackAngleVariation = curveBackAngleVariation;
+            branch.splitAngle = splitAngle;
+            branch.splitAngleVariation = splitAngleVariation;
+            branch.branchNumber = branchNumber;
+            branch.branchingPoint = branchingPoint;
+            branch.branchingAngle = branchingAngle;
+            branch.branchingAngleVariation = branchingAngleVariation;
+            branch.branchingFactor = branchingFactor;
+            branch.branchingRotationY = branchingRotationY;
+
+            branch.levelOfRecursion = levelOfRecursion + 1;
+
+            segment.childBranches.Add(branch);
+
+            branch.GenerateStem();
         }
-    }
-
-    public override void GenerateBranches(Segment segment)
-    {
-        Branch branch = new Branch();
-        branch.tree = tree;
-        branch.segCount = segCount;
-        branch.numberOfSectors = numberOfSectors;
-        branch.baseRotation = segment.bottomRotation * Quaternion.Euler(branchingAngle + (float)tree.random.NextDouble() * branchingAngleVariation);
-        branch.basePoint = segment.bottom;
-        branch.radius = segment.bottomRadius * tree.childParentRatio;
-        branch.length = branch.radius * tree.widthLengthRatio;
-        branch.taper = taper;
-        branch.splitFactor = 0f;
-        branch.curveAngle = curveAngle;
-        branch.curveAngleVariation = curveAngleVariation;
-        branch.curveBackAngle = curveBackAngle;
-        branch.curveBackAngleVariation = curveBackAngleVariation;
-        branch.splitAngle = splitAngle;
-        branch.splitAngleVariation = splitAngleVariation;
-        branch.branchingPoint = 0;
-        branch.branchingAngle = branchingAngle;
-        branch.branchingAngleVariation = branchingAngleVariation;
-        branch.branchingFactor = branchingFactor;
-
-        branch.levelOfRecursion = levelOfRecursion + 1;
-
-        segment.childBranches.Add(branch);
-
-        branch.GenerateStem();
     }
 }
