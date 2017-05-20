@@ -70,10 +70,12 @@ public class Trunk : Stem
             segment.bottom = parent.top;
             segment.bottomRotation = parent.topRotation;
             segment.parent = parent;
-            Vector3 topAngle = angle + (float) tree.random.NextDouble() * angleVariation;
+            Vector3 topAngle = angle + Random.Range(-1, 1) * angleVariation;
             segment.topRotation = segment.bottomRotation * Quaternion.Euler(topAngle);
             if (prevSplit)
+            {
                 segment.bottomRotation = segment.topRotation;
+            }
             segment.topRadius = segment.bottomRadius - radiusReduceStep;
         }
     }
@@ -127,7 +129,7 @@ public class Trunk : Stem
         branch.tree = tree;
         branch.segCount = segCount;
         branch.numberOfSectors = numberOfSectors;
-        branch.baseRotation = segment.bottomRotation * Quaternion.Euler(branchingAngle + (float)tree.random.NextDouble() * branchingAngleVariation);
+        branch.baseRotation = segment.bottomRotation * Quaternion.Euler(branchingAngle + Random.Range(-1,1) * branchingAngleVariation);
         branch.basePoint = segment.bottom;
         branch.radius = segment.bottomRadius * tree.childParentRatio;
         branch.length = length * tree.childParentRatio;

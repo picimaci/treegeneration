@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public class Branch : Stem
 {
@@ -75,8 +76,6 @@ public class Branch : Stem
         segment.numberOfSectors = numberOfSectors;
         segment.length = length / segCount;
 
-        float nextRand = (float) tree.random.NextDouble();
-
         if (segNumber == 1)
         {
             segment.bottomRadius = radius;
@@ -90,7 +89,7 @@ public class Branch : Stem
             segment.bottom = parent.top;
             segment.bottomRotation = parent.topRotation;
             segment.parent = parent;
-            segment.topRotation = segment.bottomRotation * Quaternion.Euler(angle + nextRand * angleVariation);
+            segment.topRotation = segment.bottomRotation * Quaternion.Euler(angle + Random.Range(-1,1) * angleVariation);
         }
         segment.topRadius = segment.bottomRadius - radiusReduceStep;
     }
