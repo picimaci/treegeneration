@@ -97,7 +97,7 @@ public class Branch : Stem
 
     public override void GenerateBranches(Segment segment, float yRotationOffset)
     {
-        int currentBranchNumber = Random.Range(0,branchNumber);
+        int currentBranchNumber = Random.Range(1,branchNumber);
         float rotationY = 360.0f / currentBranchNumber;
         float rotationZ = branchingAngle + Random.Range(-1, 1) * branchingAngleVariation;
         for (int i = 0; i < currentBranchNumber; i++)

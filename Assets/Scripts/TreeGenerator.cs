@@ -16,39 +16,38 @@ public class TreeGenerator : MonoBehaviour {
 	private MeshFilter meshFilter;
 
 	private Mesh treeMesh;
-
+	[Header("General Tree Params")]
 	public int segCount = 7;
 	public int numberOfSectors = 4;
-
 	public int recursionDepth = 1;
 	public float radius = 0.5f;
-	public float flare = 2;
 	public float taper = 0.7f;
 	public float widthLengthRatio = 16;
 	public float childrenParentRatio = 0.8f;
 
-	public float splitAngle = 15;
-	public float splitAngleVariation = 5;
-	public float splitPoint = 0.5f;
-	public float splitProbability = 0.5f;
-
-	public float splitProbabilityForBranch = 0.3f;
-
+	[Header("Stem Params")]
 	public int branchNumber = 2;
 	public float branchingRotationY = 30;
 	public float branchingAngle = 30;
 	public float branchingAngleVariation = 10;
-	public float branchingPoint = 0.7f;
-	public float branchingPointForBranch = 0;
-	public float branchingProbability = 0.5f;
-	public float branchingProbabilityForBranch = 0.5f;
-
+	[Header("Trunk Params")]
+	public float flare = 2;
+	public float trunkSplitAngle = 15;
+	public float trunkSplitAngleVariation = 5;
+	public float trunkSplitPoint = 0.5f;
+	public float trunkSplitProbability = 0.5f;
 	public float trunkCurveAngle = 0;
 	public float trunkCurveAngleVariation = 15;
-
-	public float curveAngle = 45;
-	public float curveAngleVariation = 15;
-
+	public float trunkBranchingPoint = 0.7f;
+	public float trunkBranchingProbability = 0.5f;
+	[Header("Branch Params")]
+	public float branchSplitAngle = 15;
+	public float branchSplitAngleVariation = 5;
+	public float branchSplitProbability = 0.3f;
+	public float branchBranchingPoint = 0;
+	public float branchingProbabilityForBranch = 0.5f;
+	public float branchCurveAngle = 45;
+	public float branchCurveAngleVariation = 15;
 	public float curveBackAngle = -10;
 	public float curveBackAngleVariation = 5;
 
@@ -81,26 +80,28 @@ public class TreeGenerator : MonoBehaviour {
 		trunk.branchingRotationY = branchingRotationY;
 		trunk.branchingAngle = branchingAngle;
 		trunk.branchingAngleVariation = branchingAngleVariation;
-		trunk.branchingFactor = branchingProbability;
-		trunk.branchingFactorForBranch = branchingProbabilityForBranch;
-		trunk.branchingPoint = branchingPoint;
-		trunk.branchingPointForBranch = branchingPointForBranch;
+		trunk.branchingFactor = trunkBranchingProbability;
+		trunk.branchBranchingFactor = branchingProbabilityForBranch;
+		trunk.branchingPoint = trunkBranchingPoint;
+		trunk.branchingPointForBranch = branchBranchingPoint;
+		trunk.curveBackAngle = curveBackAngle;
+		trunk.curveBackAngleVariation = curveBackAngleVariation;
+		trunk.branchSplitFactor = branchSplitProbability;
+		trunk.branchSplitAngle = branchSplitAngle;
+		trunk.branchSplitAngleVariation = branchSplitAngleVariation;
 		trunk.curveAngle = trunkCurveAngle;
 		trunk.curveAngleVariation = trunkCurveAngleVariation;
 		trunk.segCount = segCount;
 		trunk.numberOfSectors = numberOfSectors;
-		trunk.splitFactor = splitProbability;
-		trunk.splitAngle = splitAngle;
-		trunk.baseSplitPoint = splitPoint;
-		trunk.splitAngleVariation = splitAngleVariation;
+		trunk.splitFactor = trunkSplitProbability;
+		trunk.splitAngle = trunkSplitAngle;
+		trunk.baseSplitPoint = trunkSplitPoint;
+		trunk.splitAngleVariation = trunkSplitAngleVariation;
 		trunk.radius = radius;
 		trunk.length = radius * widthLengthRatio;
 		trunk.taper = taper;
-		trunk.curveBackAngleForBranch = curveBackAngle;
-		trunk.curveBackAngleVariationForBranch = curveBackAngleVariation;
-		trunk.splitForBranch = splitProbabilityForBranch;
-		trunk.curveAngleForBranch = curveAngle;
-		trunk.curveAngleVariationForBranch = curveAngleVariation;
+		trunk.curveAngleForBranch = branchCurveAngle;
+		trunk.curveAngleVariationForBranch = branchCurveAngleVariation;
 
 		trunk.levelOfRecursion = 0;
 

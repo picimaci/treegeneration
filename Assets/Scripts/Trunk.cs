@@ -13,12 +13,13 @@ public class Trunk : Stem
 
     public float curveAngleForBranch;
     public float curveAngleVariationForBranch;
-    public float curveBackAngleForBranch;
-    public float curveBackAngleVariationForBranch;
-    public float branchingFactorForBranch;
+    public float curveBackAngle;
+    public float curveBackAngleVariation;
+    public float branchBranchingFactor;
     public float branchingPointForBranch;
-    public float splitForBranch;
-
+    public float branchSplitFactor;
+    public float branchSplitAngle;
+    public float branchSplitAngleVariation;
 
     public override void GenerateSpecifics()
     {
@@ -114,7 +115,7 @@ public class Trunk : Stem
 
     public override void GenerateBranches(Segment segment, float yRotationOffset)
     {
-        int currentBranchNumber = Random.Range(0,branchNumber);
+        int currentBranchNumber = Random.Range(1,branchNumber);
         float rotationY = 360.0f / currentBranchNumber;
         float rotationZ = branchingAngle + Random.Range(-1, 1) * branchingAngleVariation;
 
@@ -129,18 +130,18 @@ public class Trunk : Stem
             branch.radius = segment.bottomRadius * tree.childParentRatio;
             branch.length = length * tree.childParentRatio;
             branch.taper = taper;
-            branch.splitFactor = splitForBranch;
+            branch.splitFactor = branchSplitFactor;
             branch.curveAngle = curveAngleForBranch;
             branch.curveAngleVariation = curveAngleVariationForBranch;
-            branch.curveBackAngle = curveBackAngleForBranch;
-            branch.curveBackAngleVariation = curveBackAngleVariationForBranch;
-            branch.splitAngle = splitAngle;
-            branch.splitAngleVariation = splitAngleVariation;
+            branch.curveBackAngle = curveBackAngle;
+            branch.curveBackAngleVariation = curveBackAngleVariation;
+            branch.splitAngle = branchSplitAngle;
+            branch.splitAngleVariation = branchSplitAngleVariation;
             branch.branchNumber = branchNumber;
             branch.branchingPoint = branchingPointForBranch;
             branch.branchingAngle = branchingAngle;
             branch.branchingAngleVariation = branchingAngleVariation;
-            branch.branchingFactor = branchingFactorForBranch;
+            branch.branchingFactor = branchBranchingFactor;
             branch.branchingRotationY = branchingRotationY;
 
             branch.levelOfRecursion = 1;
