@@ -67,7 +67,7 @@ public abstract class Stem
             else
             {
                 segment.bottomOffset = segment.parent.topOffset + numberOfSectors;
-                segment.topOffset = iter * numberOfSectors;
+                segment.topOffset = vertices.Count - numberOfSectors;
             }
 
             segment.GenerateSegmentMeshWithSplits();

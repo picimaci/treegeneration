@@ -36,6 +36,10 @@ public class Branch : Stem
         {
             GenerateNextSegments(segment, segNumber, adjustedSplitProbability);
         }
+        else
+        {
+            segment.lastSegment = true;
+        }
     }
 
     public void GenerateNextSegments(Segment segment, int segNumber, float split)

@@ -41,6 +41,10 @@ public class Trunk : Stem
         {
             GenerateNextSegments(segment, segNumber, adjustedSplitProbability, adjustedBaseSplitProbability);
         }
+        else
+        {
+            segment.lastSegment = true;
+        }
     }
 
     public void SetSegmentProperties(int segNumber, Segment segment, Segment parent, Vector3 angle, Vector3 angleVariation, bool prevSplit)

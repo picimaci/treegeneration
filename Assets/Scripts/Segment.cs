@@ -16,6 +16,7 @@ public class Segment
     public int numberOfSectors;
     public int bottomOffset;
     public int topOffset;
+    public bool lastSegment;
 
     public List<int> indices;
     public List<Vector3> bottomVertices;
@@ -31,6 +32,7 @@ public class Segment
         childBranches = new List<Branch>();
         indices = new List<int>();
         top = bottom + topRotation * new Vector3(0, length, 0);
+        lastSegment = false;
     }
 
     public void GenerateSegmentMeshWithSplits()
@@ -66,5 +68,19 @@ public class Segment
         indices.Add(numberOfSectors-1 + bottomOffset);
         indices.Add(0 + bottomOffset);
         indices.Add(numberOfSectors + topOffset);
+
+        if (lastSegment)
+        {
+            topVertices.Add(top);
+            for (int i = 0; i < numberOfSectors-1; i++)
+            {
+                indices.Add(2 * numberOfSectors + topOffset);
+                indices.Add(numberOfSectors + i + topOffset);
+                indices.Add(numberOfSectors + 1 + i + topOffset);
+            }
+            indices.Add(2 * numberOfSectors + topOffset);
+            indices.Add(2 * numberOfSectors - 1 + topOffset);
+            indices.Add(numberOfSectors + topOffset);
+        }
     }
 }
