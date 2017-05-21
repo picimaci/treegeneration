@@ -106,10 +106,11 @@ public class Branch : Stem
             branch.tree = tree;
             branch.segCount = segCount;
             branch.numberOfSectors = numberOfSectors;
+            branch.widthLengthRatio = widthLengthRatio;
             branch.baseRotation = segment.topRotation * Quaternion.Euler(0, yRotationOffset + i * rotationY, rotationZ);
             branch.basePoint = segment.bottom;
             branch.radius = segment.bottomRadius * tree.childParentRatio;
-            branch.length = branch.radius * tree.widthLengthRatio;
+            branch.length = branch.radius * branch.widthLengthRatio;
             branch.taper = taper;
             branch.splitFactor = splitFactor;
             branch.curveAngle = curveAngle;
