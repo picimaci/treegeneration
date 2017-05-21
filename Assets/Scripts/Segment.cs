@@ -23,6 +23,8 @@ public class Segment
     public List<int> indices;
     public List<Vector3> bottomVertices;
     public List<Vector3> topVertices;
+    public List<Vector2> bottomUvs;
+    public List<Vector2> topUvs;
 
     public Segment parent;
 
@@ -31,6 +33,8 @@ public class Segment
         bottomVertices = new List<Vector3>();
         topVertices = new List<Vector3>();
         indices = new List<int>();
+        bottomUvs = new List<Vector2>();
+        topUvs = new List<Vector2>();
         childBranches = new List<Branch>();
         childLeafStems = new List<LeafStem>();
         childLeaves = new List<Leaf>();
@@ -40,50 +44,43 @@ public class Segment
 
     public void GenerateSegmentMeshWithSplits()
     {
-        for (int i = 0; i < numberOfSectors; i++)
+        for (int i = 0; i <= numberOfSectors; i++)
         {
             Vector3 bottomVerticeBase = new Vector3((float) (bottomRadius * Math.Sin(i * 2 * Math.PI / numberOfSectors)), 0, (float) (bottomRadius * Math.Cos(i * 2 * Math.PI / numberOfSectors)));
             Vector3 bottomVertice = bottom + bottomRotation * bottomVerticeBase;
 
             bottomVertices.Add(bottomVertice);
+            bottomUvs.Add(new Vector2((float)i / numberOfSectors,0));
         }
-        for (int i = 0; i < numberOfSectors; i++)
+        for (int i = 0; i <= numberOfSectors; i++)
         {
             Vector3 topVerticeBase = new Vector3((float) (topRadius * Math.Sin(i * 2 * Math.PI / numberOfSectors)), length, (float) (topRadius * Math.Cos(i * 2 * Math.PI / numberOfSectors)));
             Vector3 topVertice = bottom + topRotation * topVerticeBase;
 
             topVertices.Add(topVertice);
+            topUvs.Add(new Vector2((float)i / numberOfSectors, 1));
         }
 
-        for (int i = 0; i < numberOfSectors-1; i++)
+        for (int i = 0; i < numberOfSectors; i++)
         {
             indices.Add(i + bottomOffset);
+            indices.Add(numberOfSectors + i + 2 + topOffset);
             indices.Add(numberOfSectors + i + 1 + topOffset);
-            indices.Add(numberOfSectors + i + topOffset);
             indices.Add(i + bottomOffset);
             indices.Add(i + 1 + bottomOffset);
-            indices.Add(numberOfSectors + i + 1 + topOffset);
+            indices.Add(numberOfSectors + i + 2 + topOffset);
         }
-
-        indices.Add(numberOfSectors-1 + bottomOffset);
-        indices.Add(numberOfSectors + topOffset);
-        indices.Add(2 * numberOfSectors-1 + topOffset);
-        indices.Add(numberOfSectors-1 + bottomOffset);
-        indices.Add(0 + bottomOffset);
-        indices.Add(numberOfSectors + topOffset);
 
         if (lastSegment)
         {
             topVertices.Add(top);
-            for (int i = 0; i < numberOfSectors-1; i++)
+            topUvs.Add(new Vector2(0,0));
+            for (int i = 0; i < numberOfSectors; i++)
             {
-                indices.Add(2 * numberOfSectors + topOffset);
-                indices.Add(numberOfSectors + i + topOffset);
-                indices.Add(numberOfSectors + 1 + i + topOffset);
+                indices.Add(2 * numberOfSectors + 2 + topOffset);
+                indices.Add(numberOfSectors + i + 1 + topOffset);
+                indices.Add(numberOfSectors + i + 2 + topOffset);
             }
-            indices.Add(2 * numberOfSectors + topOffset);
-            indices.Add(2 * numberOfSectors - 1 + topOffset);
-            indices.Add(numberOfSectors + topOffset);
         }
     }
 }

@@ -41,12 +41,14 @@ public abstract class Stem
 
     public List<Vector3> vertices;
     public List<int> indices;
+    public List<Vector2> uvs;
 
     public void GenerateStem()
     {
         segments = new List<Segment>();
         vertices = new List<Vector3>();
         indices = new List<int>();
+        uvs = new List<Vector2>();
 
         curveAnglePerSegment = curveAngle / segCount;
         curveAngleVariationPerSegment = curveAngleVariation / segCount;
@@ -82,18 +84,18 @@ public abstract class Stem
             }
             else
             {
-                segment.bottomOffset = segment.parent.topOffset + numberOfSectors;
-                segment.topOffset = vertices.Count - numberOfSectors;
+                segment.bottomOffset = (numberOfSectors + 1) * 2 * iter;
+                segment.topOffset = (numberOfSectors + 1) * 2 * iter;
             }
 
             segment.GenerateSegmentMeshWithSplits();
-            if (iter == 0)
-            {
-                vertices.AddRange(segment.bottomVertices);
-            }
+
+            vertices.AddRange(segment.bottomVertices);
             vertices.AddRange(segment.topVertices);
 
             indices.AddRange(segment.indices);
+            uvs.AddRange(segment.bottomUvs);
+            uvs.AddRange(segment.topUvs);
             iter++;
         }
     }

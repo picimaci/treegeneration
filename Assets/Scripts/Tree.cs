@@ -41,6 +41,7 @@ public class Tree
 
     public List<Vector3> vertices;
     public List<int> indices;
+    public List<Vector2> uvs;
 
     public List<Vector3> leafVertices;
     public List<int> leafIndices;
@@ -71,6 +72,7 @@ public class Tree
     {
         vertices = new List<Vector3>();
         indices = new List<int>();
+        uvs = new List<Vector2>();
 
         leafVertices = new List<Vector3>();
         leafIndices = new List<int>();
@@ -88,14 +90,14 @@ public class Tree
     public void GenerateMeshRecursively(Stem stem)
     {
         int offset = vertices.Count;
-        foreach (var vertice in stem.vertices)
+        Debug.Log(stem.vertices.Count);
+
+        vertices.AddRange(stem.vertices);
+        foreach (var index in stem.indices)
         {
-            vertices.Add(vertice);
+            indices.Add(offset + index);
         }
-        foreach (var indice in stem.indices)
-        {
-            indices.Add(offset + indice);
-        }
+        uvs.AddRange(stem.uvs);
         foreach (var segment in stem.segments)
         {
             foreach (var branch in segment.childBranches)

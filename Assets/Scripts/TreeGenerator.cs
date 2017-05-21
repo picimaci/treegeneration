@@ -204,6 +204,7 @@ public class TreeGenerator : MonoBehaviour {
 
 		treeMesh.SetVertices(tree.vertices);
 		treeMesh.SetIndices(tree.indices.ToArray(), MeshTopology.Triangles, 0);
+		treeMesh.SetUVs(0, tree.uvs);
 		treeMesh.UploadMeshData(markNoLogerReadable: false);
 		treeMesh.Optimize();
 		treeMesh.RecalculateNormals();
