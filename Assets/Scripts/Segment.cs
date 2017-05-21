@@ -13,6 +13,8 @@ public class Segment
     public Quaternion bottomRotation;
     public Quaternion topRotation;
     public List<Branch> childBranches;
+    public List<LeafStem> childLeafStems;
+    public List<Leaf> childLeaves;
     public int numberOfSectors;
     public int bottomOffset;
     public int topOffset;
@@ -24,13 +26,14 @@ public class Segment
 
     public Segment parent;
 
-
     public void GenerateSegment()
     {
         bottomVertices = new List<Vector3>();
         topVertices = new List<Vector3>();
-        childBranches = new List<Branch>();
         indices = new List<int>();
+        childBranches = new List<Branch>();
+        childLeafStems = new List<LeafStem>();
+        childLeaves = new List<Leaf>();
         top = bottom + topRotation * new Vector3(0, length, 0);
         lastSegment = false;
     }

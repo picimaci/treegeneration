@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Assertions.Comparers;
 
 public abstract class Stem
 {
     public int levelOfRecursion;
+    public float widthLengthRatio;
 
     public int segCount;
     public int numberOfSectors;
@@ -17,17 +19,20 @@ public abstract class Stem
     public float taper;
     public float splitFactor;
 
-    public Vector3 splitAngle;
-    public Vector3 splitAngleVariation;
-    public Vector3 curveAngle;
-    public Vector3 curveAngleVariation;
+    public float splitAngle;
+    public float splitAngleVariation;
+    public float curveAngle;
+    public float curveAngleVariation;
 
-    protected Vector3 curveAnglePerSegment;
-    protected Vector3 curveAngleVariationPerSegment;
+    protected float curveAnglePerSegment;
+    protected float curveAngleVariationPerSegment;
     protected float radiusReduceStep;
 
-    public Vector3 branchingAngle;
-    public Vector3 branchingAngleVariation;
+    public int branchNumber;
+    public float branchingRotationY;
+
+    public float branchingAngle;
+    public float branchingAngleVariation;
 
     public float branchingPoint;
     public float branchingFactor;
@@ -50,7 +55,18 @@ public abstract class Stem
         GenerateSpecifics();
         GenerateSegments(1, null, curveAnglePerSegment, curveAngleVariationPerSegment, false);
         GenerateStemMesh();
-        GenerateBranches();
+        if (levelOfRecursion < tree.recursionDepth)
+        {
+            GenerateBranches();
+        }
+        else if (levelOfRecursion == tree.recursionDepth)
+        {
+            GenerateLeafStems();
+        }
+        else if (levelOfRecursion == tree.recursionDepth + 1)
+        {
+            GenerateLeaves();
+        }
     }
 
     public void GenerateStemMesh()
@@ -83,7 +99,62 @@ public abstract class Stem
     }
 
     public abstract void GenerateSpecifics();
-    public abstract void GenerateSegments(int segNumber, Segment parent, Vector3 angle, Vector3 angleVariation, bool prevSplit);
-    public abstract void GenerateBranches();
-    public abstract void GenerateBranches(Segment segment);
+    public abstract void GenerateSegments(int segNumber, Segment parent, float angle, float angleVariation, bool prevSplit);
+
+    public void GenerateBranches()
+    {
+        float nextRand = (float) tree.random.NextDouble();
+        int iter = 0;
+
+        foreach (var segment in segments)
+        {
+            if (iter > segCount * branchingPoint && nextRand < branchingFactor)
+            {
+                GenerateBranches(segment, iter * branchingRotationY);
+            }
+            iter++;
+        }
+    }
+
+    public abstract void GenerateBranches(Segment segment, float yRotationOffset);
+
+    public void GenerateLeafStems()
+    {
+        float rotationYOffset = 0;
+        foreach(var segment in segments)
+        {
+            Vector3 step = (segment.top - segment.bottom) / tree.leafStemNodesPerSegment;
+            for (int i = 0; i < tree.leafStemNodesPerSegment; i++)
+            {
+                Vector3 stemBasePoint = segment.bottom + i * step;
+                float rotationY = 360.0f / tree.leafStemsPerNode;
+                for (int j = 0; j < tree.leafStemsPerNode; j++)
+                {
+                    LeafStem leafStem = new LeafStem();
+                    leafStem.tree = tree;
+                    leafStem.curveAngle = tree.leafStemCurve;
+                    leafStem.curveAngleVariation = tree.leafStemCurveVariation;
+                    leafStem.curveBackAngle = tree.leafStemCurveBack;
+                    leafStem.curveBackAngleVariation = tree.leafStemCurveBackVariation;
+                    leafStem.splitFactor = tree.leafStemSplitFactor;
+                    leafStem.splitAngle = tree.leafStemSplitAngle;
+                    leafStem.splitAngleVariation = tree.leafStemSplitAngleVariation;
+                    leafStem.radius = tree.leafStemRadius;
+                    leafStem.length = tree.leafStemLength;
+                    leafStem.taper = 1.0f;
+                    leafStem.segCount = tree.leafStemSegCount;
+                    leafStem.numberOfSectors = numberOfSectors;
+                    leafStem.basePoint = stemBasePoint;
+                    leafStem.baseRotation = segment.topRotation * Quaternion.Euler(0, rotationYOffset + j * rotationY, tree.leafStemAngle);
+                    leafStem.levelOfRecursion = levelOfRecursion + 1;
+
+                    leafStem.GenerateStem();
+                    segment.childLeafStems.Add(leafStem);
+                }
+                rotationYOffset += tree.leafStemYRotation;
+            }
+        }
+    }
+
+    public abstract void GenerateLeaves();
 }
