@@ -132,4 +132,9 @@ public class Branch : Stem
             branch.GenerateStem();
         }
     }
+
+    public override void GenerateLeaves()
+    {
+        throw new NotImplementedException();
+    }
 }

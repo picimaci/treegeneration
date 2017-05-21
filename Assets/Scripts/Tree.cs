@@ -16,8 +16,35 @@ public class Tree
 
     public Trunk trunk;
 
+    public int leafStemNodesPerSegment;
+    public int leafStemsPerNode;
+    public float leafStemYRotation;
+    public float leafStemAngle;
+    public float leafStemCurve;
+    public float leafStemCurveVariation;
+    public float leafStemCurveBack;
+    public float leafStemCurveBackVariation;
+    public int leafNodePerSegment;
+    public float leavesPerNode;
+    public float leafYRotation;
+    public float leafStemRadius;
+    public float leafStemLength;
+    public float leafStemSplitFactor;
+    public float leafStemSplitAngle;
+    public float leafStemSplitAngleVariation;
+    public int leafStemSegCount;
+    public float leafAngle;
+    public float leafRotationXAngle;
+    public float leafWidth;
+    public float leafLength;
+    public Texture leafTexture;
+
     public List<Vector3> vertices;
     public List<int> indices;
+
+    public List<Vector3> leafVertices;
+    public List<int> leafIndices;
+    public List<Vector2> leafUvs;
 
     public void SetTreeShape(Shape s)
     {
@@ -45,6 +72,10 @@ public class Tree
         vertices = new List<Vector3>();
         indices = new List<int>();
 
+        leafVertices = new List<Vector3>();
+        leafIndices = new List<int>();
+        leafUvs = new List<Vector2>();
+
         trunk.GenerateStem();
         GenerateTreeMesh();
     }
@@ -71,6 +102,25 @@ public class Tree
             {
                 GenerateMeshRecursively(branch);
             }
+            foreach (var leafStem in segment.childLeafStems)
+            {
+                GenerateMeshRecursively(leafStem);
+            }
+            foreach (var leaf in segment.childLeaves)
+            {
+                AddLeaf(leaf);
+            }
         }
+    }
+
+    public void AddLeaf(Leaf leaf)
+    {
+        int indiceOffset = leafVertices.Count;
+        leafVertices.AddRange(leaf.vertices);
+        foreach (var indice in leaf.indices)
+        {
+            leafIndices.Add(indiceOffset + indice);
+        }
+        leafUvs.AddRange(leaf.uvs);
     }
 }

@@ -151,4 +151,9 @@ public class Trunk : Stem
             branch.GenerateStem();
         }
     }
+
+    public override void GenerateLeaves()
+    {
+        throw new System.NotImplementedException();
+    }
 }

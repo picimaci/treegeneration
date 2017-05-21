@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Assertions.Comparers;
 
 public abstract class Stem
 {
@@ -57,6 +58,14 @@ public abstract class Stem
         {
             GenerateBranches();
         }
+        else if (levelOfRecursion == tree.recursionDepth)
+        {
+            GenerateLeafStems();
+        }
+        else if (levelOfRecursion == tree.recursionDepth + 1)
+        {
+            GenerateLeaves();
+        }
     }
 
     public void GenerateStemMesh()
@@ -107,4 +116,44 @@ public abstract class Stem
     }
 
     public abstract void GenerateBranches(Segment segment, float yRotationOffset);
+
+    public void GenerateLeafStems()
+    {
+        float rotationYOffset = 0;
+        foreach(var segment in segments)
+        {
+            Vector3 step = (segment.top - segment.bottom) / tree.leafStemNodesPerSegment;
+            for (int i = 0; i < tree.leafStemNodesPerSegment; i++)
+            {
+                Vector3 stemBasePoint = segment.bottom + i * step;
+                float rotationY = 360.0f / tree.leafStemsPerNode;
+                for (int j = 0; j < tree.leafStemsPerNode; j++)
+                {
+                    LeafStem leafStem = new LeafStem();
+                    leafStem.tree = tree;
+                    leafStem.curveAngle = tree.leafStemCurve;
+                    leafStem.curveAngleVariation = tree.leafStemCurveVariation;
+                    leafStem.curveBackAngle = tree.leafStemCurveBack;
+                    leafStem.curveBackAngleVariation = tree.leafStemCurveBackVariation;
+                    leafStem.splitFactor = tree.leafStemSplitFactor;
+                    leafStem.splitAngle = tree.leafStemSplitAngle;
+                    leafStem.splitAngleVariation = tree.leafStemSplitAngleVariation;
+                    leafStem.radius = tree.leafStemRadius;
+                    leafStem.length = tree.leafStemLength;
+                    leafStem.taper = 1.0f;
+                    leafStem.segCount = tree.leafStemSegCount;
+                    leafStem.numberOfSectors = numberOfSectors;
+                    leafStem.basePoint = stemBasePoint;
+                    leafStem.baseRotation = segment.topRotation * Quaternion.Euler(0, rotationYOffset + j * rotationY, tree.leafStemAngle);
+                    leafStem.levelOfRecursion = levelOfRecursion + 1;
+
+                    leafStem.GenerateStem();
+                    segment.childLeafStems.Add(leafStem);
+                }
+                rotationYOffset += tree.leafStemYRotation;
+            }
+        }
+    }
+
+    public abstract void GenerateLeaves();
 }
