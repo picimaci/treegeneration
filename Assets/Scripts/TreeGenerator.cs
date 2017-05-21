@@ -78,6 +78,7 @@ public class TreeGenerator : MonoBehaviour {
 	public float trunkWidthLengthRatio = 20;
 
 	[Header("Branch Params")]
+	public float beginningRotation = 90;
 	public float branchTaper = 0.9f;
 	public float branchSplitAngle = 15;
 	public float branchSplitAngleVariation = 5;
@@ -240,6 +241,8 @@ public class TreeGenerator : MonoBehaviour {
 		trunk.taper = trunkTaper;
 		trunk.curveAngleForBranch = branchCurveAngle;
 		trunk.curveAngleVariationForBranch = branchCurveAngleVariation;
+
+		trunk.branchBeginningRotation = beginningRotation;
 
 		trunk.levelOfRecursion = 0;
 

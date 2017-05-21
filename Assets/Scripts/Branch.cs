@@ -125,6 +125,7 @@ public class Branch : Stem
             branch.branchingAngleVariation = branchingAngleVariation;
             branch.branchingFactor = branchingFactor;
             branch.branchingRotationY = branchingRotationY;
+            branch.beginningRotation = beginningRotation;
 
             branch.levelOfRecursion = levelOfRecursion + 1;
 

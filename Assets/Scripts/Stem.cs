@@ -37,6 +37,8 @@ public abstract class Stem
     public float branchingPoint;
     public float branchingFactor;
 
+    public float beginningRotation;
+
     public Tree tree;
 
     public List<Vector3> vertices;

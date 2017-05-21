@@ -22,6 +22,7 @@ public class Trunk : Stem
     public float branchSplitAngleVariation;
     public float branchTaper;
     public float branchWidthLengthRatio;
+    public float branchBeginningRotation;
 
     public override void GenerateSpecifics()
     {
@@ -146,6 +147,7 @@ public class Trunk : Stem
             branch.branchingAngleVariation = branchingAngleVariation;
             branch.branchingFactor = branchBranchingFactor;
             branch.branchingRotationY = branchingRotationY;
+            branch.beginningRotation = branchBeginningRotation;
 
             branch.levelOfRecursion = 1;
 
