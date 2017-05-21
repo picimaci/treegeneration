@@ -20,6 +20,8 @@ public class Trunk : Stem
     public float branchSplitFactor;
     public float branchSplitAngle;
     public float branchSplitAngleVariation;
+    public float branchTaper;
+    public float branchWidthLengthRatio;
 
     public override void GenerateSpecifics()
     {
@@ -125,10 +127,11 @@ public class Trunk : Stem
             branch.tree = tree;
             branch.segCount = segCount;
             branch.numberOfSectors = numberOfSectors;
+            branch.widthLengthRatio = branchWidthLengthRatio;
             branch.baseRotation = segment.topRotation * Quaternion.Euler(0, yRotationOffset + i * rotationY, rotationZ);
             branch.basePoint = segment.bottom;
             branch.radius = segment.bottomRadius * tree.childParentRatio;
-            branch.length = length * tree.childParentRatio;
+            branch.length = branch.radius * branch.widthLengthRatio;
             branch.taper = taper;
             branch.splitFactor = branchSplitFactor;
             branch.curveAngle = curveAngleForBranch;

@@ -6,6 +6,7 @@ using System;
 public abstract class Stem
 {
     public int levelOfRecursion;
+    public float widthLengthRatio;
 
     public int segCount;
     public int numberOfSectors;

@@ -21,8 +21,6 @@ public class TreeGenerator : MonoBehaviour {
 	public int numberOfSectors = 4;
 	public int recursionDepth = 1;
 	public float radius = 0.5f;
-	public float taper = 0.7f;
-	public float widthLengthRatio = 16;
 	public float childrenParentRatio = 0.8f;
 
 	[Header("Stem Params")]
@@ -30,8 +28,10 @@ public class TreeGenerator : MonoBehaviour {
 	public float branchingRotationY = 30;
 	public float branchingAngle = 30;
 	public float branchingAngleVariation = 10;
+
 	[Header("Trunk Params")]
 	public float flare = 2;
+	public float trunkTaper = 0.7f;
 	public float trunkSplitAngle = 15;
 	public float trunkSplitAngleVariation = 5;
 	public float trunkSplitPoint = 0.5f;
@@ -40,7 +40,10 @@ public class TreeGenerator : MonoBehaviour {
 	public float trunkCurveAngleVariation = 15;
 	public float trunkBranchingPoint = 0.7f;
 	public float trunkBranchingProbability = 0.5f;
+	public float trunkWidthLengthRatio = 20;
+
 	[Header("Branch Params")]
+	public float branchTaper = 0.9f;
 	public float branchSplitAngle = 15;
 	public float branchSplitAngleVariation = 5;
 	public float branchSplitProbability = 0.3f;
@@ -50,6 +53,7 @@ public class TreeGenerator : MonoBehaviour {
 	public float branchCurveAngleVariation = 15;
 	public float curveBackAngle = -10;
 	public float curveBackAngleVariation = 5;
+	public float branchWidthLengthRatio = 30;
 
 	public Shape shape = Shape.Apple;
 
@@ -89,6 +93,8 @@ public class TreeGenerator : MonoBehaviour {
 		trunk.branchSplitFactor = branchSplitProbability;
 		trunk.branchSplitAngle = branchSplitAngle;
 		trunk.branchSplitAngleVariation = branchSplitAngleVariation;
+		trunk.branchTaper = branchTaper;
+		trunk.branchWidthLengthRatio = branchWidthLengthRatio;
 		trunk.curveAngle = trunkCurveAngle;
 		trunk.curveAngleVariation = trunkCurveAngleVariation;
 		trunk.segCount = segCount;
@@ -98,8 +104,9 @@ public class TreeGenerator : MonoBehaviour {
 		trunk.baseSplitPoint = trunkSplitPoint;
 		trunk.splitAngleVariation = trunkSplitAngleVariation;
 		trunk.radius = radius;
-		trunk.length = radius * widthLengthRatio;
-		trunk.taper = taper;
+		trunk.widthLengthRatio = trunkWidthLengthRatio;
+		trunk.length = radius * trunkWidthLengthRatio;
+		trunk.taper = trunkTaper;
 		trunk.curveAngleForBranch = branchCurveAngle;
 		trunk.curveAngleVariationForBranch = branchCurveAngleVariation;
 
