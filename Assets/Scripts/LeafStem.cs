@@ -104,7 +104,7 @@ public class LeafStem : Stem
         float rotationYOffset = 0;
         foreach(var segment in segments)
         {
-            Vector3 step = (segment.top - segment.bottom) / tree.leafStemNodesPerSegment;
+            Vector3 step = (segment.top - segment.bottom) / tree.leafNodePerSegment;
             for (int i = 0; i < tree.leafNodePerSegment; i++)
             {
                 Vector3 leafBasePoint = segment.bottom + (i+1) * step;
