@@ -58,6 +58,7 @@ public class Trunk : Stem
     {
         segment.numberOfSectors = numberOfSectors;
         segment.length = length / segCount;
+        segment.segNumber = segNumber;
 
         if (segNumber >= segCount - 1)
         {

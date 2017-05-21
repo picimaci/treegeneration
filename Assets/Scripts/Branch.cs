@@ -74,6 +74,7 @@ public class Branch : Stem
     {
         segment.numberOfSectors = numberOfSectors;
         segment.length = length / segCount;
+        segment.segNumber = segNumber;
 
         if (segNumber == 1)
         {

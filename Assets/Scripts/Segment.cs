@@ -9,6 +9,7 @@ public class Segment
     public Vector3 top;
     public float bottomRadius;
     public float topRadius;
+    public int segNumber;
     public float length;
     public Quaternion bottomRotation;
     public Quaternion topRotation;

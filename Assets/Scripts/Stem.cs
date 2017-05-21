@@ -128,7 +128,7 @@ public abstract class Stem
         int iter = 0;
         foreach(var segment in segments)
         {
-            if ((float) iter / segCount > tree.leafStemPoint)
+            if ((float) segment.segNumber / segCount > tree.leafStemPoint)
             {
                 Vector3 step = (segment.top - segment.bottom) / tree.leafStemNodesPerSegment;
                 for (int i = 0; i < tree.leafStemNodesPerSegment; i++)
