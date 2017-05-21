@@ -10,12 +10,18 @@ using Debug = UnityEngine.Debug;
 [ExecuteInEditMode]
 public class TreeGenerator : MonoBehaviour {
 
-	private MeshRenderer treeMeshRenderer;
+	private MeshRenderer trunkMeshRenderer;
+	private MeshRenderer branchMeshRenderer;
+	private MeshRenderer leafStemMeshRenderer;
 	private MeshRenderer leafMeshRenderer;
-	private MeshFilter treeMeshFilter;
+	private MeshFilter trunkMeshFilter;
+	private MeshFilter branchMeshFilter;
+	private MeshFilter leafStemMeshFilter;
 	private MeshFilter leafMeshFilter;
 
-	private Mesh treeMesh;
+	private Mesh trunkMesh;
+	private Mesh branchMesh;
+	private Mesh leafStemMesh;
 	private Mesh leafMesh;
 
 	[Header("General Tree Params")]
@@ -89,21 +95,53 @@ public class TreeGenerator : MonoBehaviour {
 	{
 		Debug.Log("TreeGenerator.OnEnable");
 
-		Transform treeTr = transform.Find("Tree");
-		if (!treeTr)
+		Transform trunkTr = transform.Find("Trunk");
+		if (!trunkTr)
 		{
-			GameObject treeGO = new GameObject("Tree");
-			treeTr = treeGO.transform;
-			treeTr.parent = transform;
-			treeTr.localPosition = Vector3.zero;
-			treeTr.localRotation = Quaternion.identity;
+			GameObject trunkGO = new GameObject("Trunk");
+			trunkTr = trunkGO.transform;
+			trunkTr.parent = transform;
+			trunkTr.localPosition = Vector3.zero;
+			trunkTr.localRotation = Quaternion.identity;
 		}
-		treeMeshRenderer = treeTr.GetComponent<MeshRenderer>();
-		if (!treeMeshRenderer)
-			treeMeshRenderer = treeTr.gameObject.AddComponent<MeshRenderer>();
-		treeMeshFilter = treeTr.GetComponent<MeshFilter>();
-		if (!treeMeshFilter)
-			treeMeshFilter = treeTr.gameObject.AddComponent<MeshFilter>();
+		trunkMeshRenderer = trunkTr.GetComponent<MeshRenderer>();
+		if (!trunkMeshRenderer)
+			trunkMeshRenderer = trunkTr.gameObject.AddComponent<MeshRenderer>();
+		trunkMeshFilter = trunkTr.GetComponent<MeshFilter>();
+		if (!trunkMeshFilter)
+			trunkMeshFilter = trunkTr.gameObject.AddComponent<MeshFilter>();
+
+		Transform branchTr = transform.Find("Branch");
+		if (!branchTr)
+		{
+			GameObject branchGO = new GameObject("Branch");
+			branchTr = branchGO.transform;
+			branchTr.parent = transform;
+			branchTr.localPosition = Vector3.zero;
+			branchTr.localRotation = Quaternion.identity;
+		}
+		branchMeshRenderer = branchTr.GetComponent<MeshRenderer>();
+		if (!branchMeshRenderer)
+			branchMeshRenderer = branchTr.gameObject.AddComponent<MeshRenderer>();
+		branchMeshFilter = branchTr.GetComponent<MeshFilter>();
+		if (!branchMeshFilter)
+			branchMeshFilter = branchTr.gameObject.AddComponent<MeshFilter>();
+
+		Transform leafStemTr = transform.Find("LeafStem");
+		if (!leafStemTr)
+		{
+			GameObject leafStemGO = new GameObject("LeafStem");
+			leafStemTr = leafStemGO.transform;
+			leafStemTr.parent = transform;
+			leafStemTr.localPosition = Vector3.zero;
+			leafStemTr.localRotation = Quaternion.identity;
+		}
+		leafStemMeshRenderer = leafStemTr.GetComponent<MeshRenderer>();
+		if (!leafStemMeshRenderer)
+			leafStemMeshRenderer = leafStemTr.gameObject.AddComponent<MeshRenderer>();
+		leafStemMeshFilter = leafStemTr.GetComponent<MeshFilter>();
+		if (!leafStemMeshFilter)
+			leafStemMeshFilter = leafStemTr.gameObject.AddComponent<MeshFilter>();
 
 		Transform leafTr = transform.Find("Leaf");
 		if (!leafTr)
@@ -125,9 +163,17 @@ public class TreeGenerator : MonoBehaviour {
 	[ContextMenu("Generate")]
 	public void Generate()
 	{
-		if (treeMesh)
-			DestroyImmediate(treeMesh);
-		treeMesh = new Mesh {name = "treeMesh"};
+		if (trunkMesh)
+			DestroyImmediate(trunkMesh);
+		trunkMesh = new Mesh {name = "trunkMesh"};
+
+		if(branchMesh)
+			DestroyImmediate(branchMesh);
+		branchMesh = new Mesh {name = "branchMesh"};
+
+		if(leafStemMesh)
+			DestroyImmediate(leafStemMesh);
+		leafStemMesh = new Mesh {name = "leafStemMesh"};
 
 		if(leafMesh)
 			DestroyImmediate(leafMesh);
@@ -202,14 +248,32 @@ public class TreeGenerator : MonoBehaviour {
 
 		tree.GenerateTreeUsingEditorParams();
 
-		treeMesh.SetVertices(tree.vertices);
-		treeMesh.SetIndices(tree.indices.ToArray(), MeshTopology.Triangles, 0);
-		treeMesh.SetUVs(0, tree.uvs);
-		treeMesh.UploadMeshData(markNoLogerReadable: false);
-		treeMesh.Optimize();
-		treeMesh.RecalculateNormals();
-		treeMeshFilter.sharedMesh = treeMesh;
-		treeMeshRenderer.sharedMaterial = treeMaterial;
+		trunkMesh.SetVertices(tree.trunkVertices);
+		trunkMesh.SetIndices(tree.trunkIndices.ToArray(), MeshTopology.Triangles, 0);
+		trunkMesh.SetUVs(0, tree.trunkUvs);
+		trunkMesh.UploadMeshData(markNoLogerReadable: false);
+		trunkMesh.Optimize();
+		trunkMesh.RecalculateNormals();
+		trunkMeshFilter.sharedMesh = trunkMesh;
+		trunkMeshRenderer.sharedMaterial = treeMaterial;
+
+		branchMesh.SetVertices(tree.branchVertices);
+		branchMesh.SetIndices(tree.branchIndices.ToArray(), MeshTopology.Triangles, 0);
+		branchMesh.SetUVs(0, tree.branchUvs);
+		branchMesh.UploadMeshData(markNoLogerReadable: false);
+		branchMesh.Optimize();
+		branchMesh.RecalculateNormals();
+		branchMeshFilter.sharedMesh = branchMesh;
+		branchMeshRenderer.sharedMaterial = treeMaterial;
+
+		leafStemMesh.SetVertices(tree.leafStemVertices);
+		leafStemMesh.SetIndices(tree.leafStemIndices.ToArray(), MeshTopology.Triangles, 0);
+		leafStemMesh.SetUVs(0, tree.leafStemUvs);
+		leafStemMesh.UploadMeshData(markNoLogerReadable: false);
+		leafStemMesh.Optimize();
+		leafStemMesh.RecalculateNormals();
+		leafStemMeshFilter.sharedMesh = leafStemMesh;
+		leafStemMeshRenderer.sharedMaterial = treeMaterial;
 
 		leafMesh.SetVertices(tree.leafVertices);
 		leafMesh.SetIndices(tree.leafIndices.ToArray(), MeshTopology.Triangles, 0);

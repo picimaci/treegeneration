@@ -84,8 +84,8 @@ public abstract class Stem
             }
             else
             {
-                segment.bottomOffset = (numberOfSectors + 1) * 2 * iter;
-                segment.topOffset = (numberOfSectors + 1) * 2 * iter;
+                segment.bottomOffset = vertices.Count;
+                segment.topOffset = vertices.Count;
             }
 
             segment.GenerateSegmentMeshWithSplits();

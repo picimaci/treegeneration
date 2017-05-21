@@ -39,9 +39,17 @@ public class Tree
     public float leafLength;
     public Texture leafTexture;
 
-    public List<Vector3> vertices;
-    public List<int> indices;
-    public List<Vector2> uvs;
+    public List<Vector3> trunkVertices;
+    public List<int> trunkIndices;
+    public List<Vector2> trunkUvs;
+
+    public List<Vector3> branchVertices;
+    public List<int> branchIndices;
+    public List<Vector2> branchUvs;
+
+    public List<Vector3> leafStemVertices;
+    public List<int> leafStemIndices;
+    public List<Vector2> leafStemUvs;
 
     public List<Vector3> leafVertices;
     public List<int> leafIndices;
@@ -70,9 +78,17 @@ public class Tree
 
     public void GenerateTreeUsingEditorParams()
     {
-        vertices = new List<Vector3>();
-        indices = new List<int>();
-        uvs = new List<Vector2>();
+        trunkVertices = new List<Vector3>();
+        trunkIndices = new List<int>();
+        trunkUvs = new List<Vector2>();
+
+        branchVertices = new List<Vector3>();
+        branchIndices = new List<int>();
+        branchUvs = new List<Vector2>();
+
+        leafStemVertices = new List<Vector3>();
+        leafStemIndices = new List<int>();
+        leafStemUvs = new List<Vector2>();
 
         leafVertices = new List<Vector3>();
         leafIndices = new List<int>();
@@ -89,15 +105,33 @@ public class Tree
 
     public void GenerateMeshRecursively(Stem stem)
     {
-        int offset = vertices.Count;
-        Debug.Log(stem.vertices.Count);
-
-        vertices.AddRange(stem.vertices);
-        foreach (var index in stem.indices)
+        if (stem.levelOfRecursion == 0)
         {
-            indices.Add(offset + index);
+            trunkVertices.AddRange(trunk.vertices);
+            trunkIndices.AddRange(trunk.indices);
+            trunkUvs.AddRange(trunk.uvs);
+        } else
+        if (stem.levelOfRecursion < recursionDepth + 1)
+        {
+            int offset = branchVertices.Count;
+            branchVertices.AddRange(stem.vertices);
+            foreach (var index in stem.indices)
+            {
+                branchIndices.Add(offset + index);
+            }
+            branchUvs.AddRange(stem.uvs);
+        } else
+        if (stem.levelOfRecursion == recursionDepth + 1)
+        {
+            int offset = leafStemVertices.Count;
+            leafStemVertices.AddRange(stem.vertices);
+            foreach (var index in stem.indices)
+            {
+                leafStemIndices.Add(offset + index);
+            }
+            leafStemUvs.AddRange(stem.uvs);
         }
-        uvs.AddRange(stem.uvs);
+
         foreach (var segment in stem.segments)
         {
             foreach (var branch in segment.childBranches)
