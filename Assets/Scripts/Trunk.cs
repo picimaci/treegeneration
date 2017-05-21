@@ -132,7 +132,7 @@ public class Trunk : Stem
             branch.basePoint = segment.bottom;
             branch.radius = segment.bottomRadius * tree.childParentRatio;
             branch.length = branch.radius * branch.widthLengthRatio;
-            branch.taper = taper;
+            branch.taper = branchTaper;
             branch.splitFactor = branchSplitFactor;
             branch.curveAngle = curveAngleForBranch;
             branch.curveAngleVariation = curveAngleVariationForBranch;
