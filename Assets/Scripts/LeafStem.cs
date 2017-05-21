@@ -107,7 +107,7 @@ public class LeafStem : Stem
             Vector3 step = (segment.top - segment.bottom) / tree.leafStemNodesPerSegment;
             for (int i = 0; i < tree.leafNodePerSegment; i++)
             {
-                Vector3 leafBasePoint = segment.bottom + i * step;
+                Vector3 leafBasePoint = segment.bottom + (i+1) * step;
                 float rotationY = 360.0f / tree.leafStemsPerNode;
                 for (int j = 0; j < tree.leavesPerNode; j++)
                 {
