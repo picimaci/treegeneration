@@ -16,6 +16,7 @@ public class Tree
 
     public Trunk trunk;
 
+    public float leafStemPoint;
     public int leafStemNodesPerSegment;
     public int leafStemsPerNode;
     public float leafStemYRotation;

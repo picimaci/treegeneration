@@ -41,6 +41,7 @@ public class TreeGenerator : MonoBehaviour {
 
 	[Header("LeafStem and Leaf Params")]
 	//public Texture leafTexture;
+	public float leafStemPoint = 0.5f;
 	public int leafStemNodesPerSegment = 3;
 	public int leafStemsPerNode = 2;
 	public float leafStemYRotation = 90;
@@ -183,6 +184,7 @@ public class TreeGenerator : MonoBehaviour {
 		tree.childParentRatio = childrenParentRatio;
 		tree.widthLengthRatio = trunkWidthLengthRatio;
 		tree.recursionDepth = recursionDepth;
+		tree.leafStemPoint = leafStemPoint;
 		tree.leafStemAngle = leafStemAngle;
 		tree.leafStemNodesPerSegment = leafStemNodesPerSegment;
 		tree.leafStemsPerNode = leafStemsPerNode;
